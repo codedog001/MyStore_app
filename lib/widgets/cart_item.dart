@@ -50,12 +50,15 @@ class CartItem extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(5),
                 child: FittedBox(
-                  child: Text('\$$price'),
+                  child: SelectableText('\$$price'),
                 ),
               ),
             ),
-            title: Text(title),
-            subtitle: Text('Total: \$${(price * quantity)}'),
+            title: SelectableText(
+              title,
+              showCursor: true,
+            ),
+            subtitle: SelectableText('Total: \$${(price * quantity)}'),
             trailing: Text('$quantity x'),
           ),
         ),

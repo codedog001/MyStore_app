@@ -27,8 +27,9 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     'Total',
+                    cursorColor: Colors.green,
                     style: TextStyle(
                       fontSize: 20,
                     ),

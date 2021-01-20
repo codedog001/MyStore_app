@@ -51,6 +51,7 @@ class Products with ChangeNotifier {
   }
 
   // void showFavoritesOnly() {
+
   //   _showFavoritesOnly = true;
   //   notifyListeners();
   // }

@@ -12,7 +12,10 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Your Cart',
-          style: Theme.of(context).textTheme.headline6,
+          style: TextStyle(
+            color: Theme.of(context).primaryTextTheme.headline6.color,
+            fontFamily: Theme.of(context).textTheme.headline6.fontFamily,
+          ),
         ),
       ),
       body: Column(
@@ -61,6 +64,7 @@ class CartScreen extends StatelessWidget {
                 title: cart.items.values.toList()[i].title,
                 price: cart.items.values.toList()[i].price,
                 quantity: cart.items.values.toList()[i].quantity,
+                productId: cart.items.keys.toList()[i],
               ),
             ),
           )

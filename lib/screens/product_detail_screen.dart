@@ -34,7 +34,7 @@ class ProductDetailScreen extends StatelessWidget {
               height: 10,
             ),
             SelectableText(
-              '\$${loadedProduct.price}',
+              '₹${loadedProduct.price}',
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 20,

@@ -20,7 +20,7 @@ class _OrderItemState extends State<OrderItem> {
       child: Column(
         children: [
           ListTile(
-            title: SelectableText('\$${widget.order.amount}'),
+            title: SelectableText('₹${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: SelectableText(
               DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime),
             ),
@@ -39,7 +39,7 @@ class _OrderItemState extends State<OrderItem> {
                 horizontal: 15,
                 vertical: 4,
               ),
-              height: min(widget.order.products.length * 20 + 10.0, 100.0),
+              height: min(widget.order.products.length * 20 + 30.0, 100.0),
               child: ListView(
                 children: widget.order.products
                     .map(
@@ -54,7 +54,7 @@ class _OrderItemState extends State<OrderItem> {
                             ),
                           ),
                           Text(
-                            '${prod.quantity}x \$${prod.price}',
+                            '${prod.quantity}x ₹${prod.price}',
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.grey,

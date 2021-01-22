@@ -21,6 +21,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
     price: 0,
     title: '',
   );
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': '',
+  };
 
   @override
   void dispose() {
@@ -37,6 +43,30 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.initState();
   }
 
+  var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context).settings.arguments as String;
+      if (productId != null) {
+        _editedProduct =
+            Provider.of<Products>(context, listen: false).findById(productId);
+        _initValues = {
+          'title': _editedProduct.title,
+          'description': _editedProduct.description,
+          'imageUrl': _editedProduct.imageUrl,
+          'price': _editedProduct.price.toString(),
+          // 'imageUrl': _editedProduct.imageUrl,
+          'imageUrl': '',
+        };
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   void _updateImageUrl() {
     //If focus was on Image Url field, but it lost focus after that then setState() will run again to show the preview of the image.
     if (!_imageUrlFocusNode.hasFocus) {
@@ -50,7 +80,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _form.currentState.save();
-    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    if (_editedProduct.id != null) {
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(_editedProduct.id, _editedProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    }
     Navigator.of(context).pop();
   }
 
@@ -73,6 +108,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _initValues['title'],
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
                 validator: (value) {
@@ -86,12 +122,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: value,
                     description: _editedProduct.description,
                     price: _editedProduct.price,
-                    id: null,
+                    id: _editedProduct.id,
+                    isFavorite: _editedProduct.isFavorite,
                     imageUrl: _editedProduct.imageUrl,
                   );
                 },
               ),
               TextFormField(
+                initialValue: _initValues['price'],
                 decoration: InputDecoration(labelText: 'Price'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
@@ -112,12 +150,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: _editedProduct.title,
                     description: _editedProduct.description,
                     price: double.parse(value),
-                    id: null,
+                    id: _editedProduct.id,
+                    isFavorite: _editedProduct.isFavorite,
                     imageUrl: _editedProduct.imageUrl,
                   );
                 },
               ),
               TextFormField(
+                initialValue: _initValues['description'],
                 decoration: InputDecoration(labelText: 'Description'),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
@@ -132,7 +172,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: _editedProduct.title,
                     description: value,
                     price: _editedProduct.price,
-                    id: null,
+                    id: _editedProduct.id,
+                    isFavorite: _editedProduct.isFavorite,
                     imageUrl: _editedProduct.imageUrl,
                   );
                 },
@@ -179,7 +220,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           title: _editedProduct.title,
                           description: _editedProduct.description,
                           price: _editedProduct.price,
-                          id: null,
+                          id: _editedProduct.id,
+                          isFavorite: _editedProduct.isFavorite,
                           imageUrl: value,
                         );
                       },

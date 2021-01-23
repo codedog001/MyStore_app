@@ -34,20 +34,30 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_outline,
                 color: Theme.of(context).accentColor,
+                size: 20,
               ),
               onPressed: () {
                 product.toggleFavoriteStatus();
               },
             ),
           ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
-          ),
+          title: product.title.length > 7
+              ? FittedBox(
+                  child: Text(
+                    product.title,
+                    textAlign: TextAlign.justify,
+                  ),
+                )
+              : Text(
+                  product.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 17),
+                ),
           trailing: IconButton(
             icon: Icon(
               Icons.shopping_cart,
               color: Theme.of(context).accentColor,
+              size: 20,
             ),
             onPressed: () {
               cart.addItem(

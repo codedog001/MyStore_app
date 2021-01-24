@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../providers/product.dart';
 import '../providers/products.dart';
 
-//Changes are made in this file, as Description was not showing after adding or editing a product.
-
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
 
@@ -95,25 +93,34 @@ class _EditProductScreenState extends State<EditProductScreen> {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
-        await showDialog<Null>(
+        await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('An error occured!'),
-            content: Text('Oops... something went wrong.'),
-            actions: [
+            title: Text('An error occurred!'),
+            content: Text('Something went wrong.'),
+            actions: <Widget>[
               FlatButton(
                 child: Text('Okay'),
-                onPressed: () => Navigator.of(ctx).pop(),
-              ),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
             ],
           ),
         );
       }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
     }
     setState(() {
       _isLoading = false;
     });
     Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -147,7 +154,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please provide a title.';
+                          return 'Please provide a value.';
                         }
                         return null;
                       },
@@ -173,13 +180,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter the price.';
+                          return 'Please enter a price.';
                         }
                         if (double.tryParse(value) == null) {
                           return 'Please enter a valid number.';
                         }
                         if (double.parse(value) < 0) {
-                          return 'Price can\'t be negative.';
+                          return 'Please enter a number greater than zero.';
                         }
                         return null;
                       },
@@ -256,6 +263,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               if (value.isEmpty) {
                                 return 'Please enter an image URL.';
                               }
+
                               return null;
                             },
                             onSaved: (value) {

@@ -8,9 +8,9 @@ class CartItem {
 
   CartItem({
     @required this.id,
-    @required this.price,
-    @required this.quantity,
     @required this.title,
+    @required this.quantity,
+    @required this.price,
   });
 }
 
@@ -39,19 +39,17 @@ class Cart with ChangeNotifier {
     String title,
   ) {
     if (_items.containsKey(productId)) {
-      //.... Product exists already, just change the qty.
-
+      // change quantity...
       _items.update(
         productId,
         (existingCartItem) => CartItem(
           id: existingCartItem.id,
-          price: existingCartItem.price,
           title: existingCartItem.title,
+          price: existingCartItem.price,
           quantity: existingCartItem.quantity + 1,
         ),
       );
     } else {
-      //... Add a new product, that is not already in the cart.
       _items.putIfAbsent(
         productId,
         () => CartItem(
@@ -72,20 +70,18 @@ class Cart with ChangeNotifier {
 
   void removeSingleItem(String productId) {
     if (!_items.containsKey(productId)) {
-      // If no item is present in cart.
       return;
     }
     if (_items[productId].quantity > 1) {
       _items.update(
-        productId,
-        (existingCartItem) => CartItem(
-            id: existingCartItem.id,
-            price: existingCartItem.price,
-            quantity: existingCartItem.quantity - 1,
-            title: existingCartItem.title),
-      );
+          productId,
+          (existingCartItem) => CartItem(
+                id: existingCartItem.id,
+                title: existingCartItem.title,
+                price: existingCartItem.price,
+                quantity: existingCartItem.quantity - 1,
+              ));
     } else {
-      // Only 1 quantity is present.
       _items.remove(productId);
     }
     notifyListeners();

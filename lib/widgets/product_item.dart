@@ -1,17 +1,21 @@
-import 'package:MyStore_app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
 import '../providers/cart.dart';
 
 class ProductItem extends StatelessWidget {
+  // final String id;
+  // final String title;
+  // final String imageUrl;
+
+  // ProductItem(this.id, this.title, this.imageUrl);
+
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
-    final cart = Provider.of<Cart>(
-      context,
-      listen: false,
-    );
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -30,45 +34,32 @@ class ProductItem extends StatelessWidget {
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: Consumer<Product>(
-            builder: (ctx, product, child) => IconButton(
+            builder: (ctx, product, _) => IconButton(
               icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_outline,
-                color: Theme.of(context).accentColor,
-                size: 20,
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
+              color: Theme.of(context).accentColor,
               onPressed: () {
                 product.toggleFavoriteStatus();
               },
             ),
           ),
-          title: product.title.length > 7
-              ? FittedBox(
-                  child: Text(
-                    product.title,
-                    textAlign: TextAlign.justify,
-                  ),
-                )
-              : Text(
-                  product.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 17),
-                ),
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
+          ),
           trailing: IconButton(
             icon: Icon(
               Icons.shopping_cart,
-              color: Theme.of(context).accentColor,
-              size: 20,
             ),
             onPressed: () {
-              cart.addItem(
-                product.id,
-                product.price,
-                product.title,
-              );
+              cart.addItem(product.id, product.price, product.title);
               Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Item added to the cart!'),
+                  content: Text(
+                    'Added item to cart!',
+                  ),
                   duration: Duration(seconds: 2),
                   action: SnackBarAction(
                     label: 'UNDO',
@@ -79,6 +70,7 @@ class ProductItem extends StatelessWidget {
                 ),
               );
             },
+            color: Theme.of(context).accentColor,
           ),
         ),
       ),

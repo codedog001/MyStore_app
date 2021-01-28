@@ -99,8 +99,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url =
-        'https://flutter-update-ae874-default-rtdb.firebaseio.com/products.json';
+    final url =
+        'https://flutter-update-ae874-default-rtdb.firebaseio.com/products.jsonauth=$authToken';
     try {
       final response = await http.post(
         url,
@@ -132,7 +132,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url =
-          'https://flutter-update-ae874-default-rtdb.firebaseio.com/products/$id.json';
+          'https://flutter-update-ae874-default-rtdb.firebaseio.com/products/$id.jsonauth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': newProduct.title,

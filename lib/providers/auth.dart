@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/date_time_patterns.dart';
 import 'dart:convert';
 import '../models/http_exception.dart';
 

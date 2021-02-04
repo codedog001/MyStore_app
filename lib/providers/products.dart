@@ -73,9 +73,10 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString = filterByUser ? '&orderBy="creatorId"&equalTo="$userId" ' : '';
     var url =
-        'https://flutter-update-ae874-default-rtdb.firebaseio.com/products.json?auth=$authToken';
+        'https://flutter-update-ae874-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterString ';
     try {
       final favoriteResponse = await http.get(url);
       final favoriteData = json.decode(favoriteResponse.body);

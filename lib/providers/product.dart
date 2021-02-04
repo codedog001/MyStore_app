@@ -31,6 +31,7 @@ class Product with ChangeNotifier {
     notifyListeners();
     final url =
         'https://flutter-update-ae874-default-rtdb.firebaseio.com/userfavorites/$userId/$id.json?auth=$token';
+
     try {
       final response = await http.put(
         url,

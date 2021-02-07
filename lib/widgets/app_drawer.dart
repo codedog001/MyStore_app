@@ -40,6 +40,8 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(UserProductsScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(
+                  '/'); //So that logic to render home screen works always when logout is pressed.
             },
           ),
           Divider(),
